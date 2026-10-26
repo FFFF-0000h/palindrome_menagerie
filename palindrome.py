@@ -41,4 +41,27 @@ def main():
     print(f"Longest palindrome: {result} length: {len(result)}")
 
 if __name__ == "__main__":
+    import time
+    
+    # Correctness
+    assert normalize("A man, a plan!") == "amanaplan"
+    assert is_palindrome("") is True
+    assert is_palindrome("a") is True
+    assert is_palindrome("aa") is True
+    assert is_palindrome("ab") is False
+    assert is_palindrome("racecar") is True
+    assert longest_palindrome("racecar") == "racecar"
+    assert longest_palindrome("") == ""
+    assert longest_palindrome("a") == "a"
+    assert longest_palindrome("ab") in ("a", "b")
+    assert longest_palindrome("abacdfgdcaba") == "aba"
+    assert longest_palindrome("A man, a plan, a canal: Panama") == "amanaplanacanalpanama"
+
+    # Performance scaling
+    for n in (500, 1000, 2000):
+        s = "a" * n
+        t = time.perf_counter()
+        longest_palindrome(s)
+        print(f"n={n}:  {time.perf_counter() - t:.4f}s")
+
     main()
