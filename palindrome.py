@@ -35,10 +35,41 @@ def expand_around_center(s: str, left: int, right: int) -> str:
     # Slice [left + 1:right] gives the palindrome without th mismatched pair.
     return s[left + 1:right]
 
+def visualize(text: str) -> None:
+    normalized = normalize(text)
+
+    best = longest_palindrome(text)
+
+    print(f"\nNormalized: {normalized} (length {len(normalized)})")
+
+    if not best:
+        print("(no palindrome)")
+        return
+    
+    print(f"Longest palindrome: {best} (length {len(best)})")
+
+    start = normalized.find(best)
+    end = start + len(best)
+    print(f"Span: [{start}:{end}]")
+
+    print()
+    print(normalized)
+
+    markers = [" "] * len(normalized)
+
+    if end - start == 1:
+        markers[start] = "|"
+    else:
+        for i in range(start, end):
+            markers[i] = "="
+        markers[start] = "["
+        markers[end - 1] = "]"
+
+    print("".join(markers))
+
 def main():
     text = input("Enter text: ")
-    result = longest_palindrome(text)
-    print(f"Longest palindrome: {result} length: {len(result)}")
+    visualize(text)
 
 if __name__ == "__main__":
     import time
