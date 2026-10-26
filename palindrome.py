@@ -16,12 +16,24 @@ def is_palindrome(s: str) -> bool:
 def longest_palindrome(text: str) -> str:
     s = normalize(text)
     best = ""
-    for i in range(len(s)):
-        for j in range(i + 1, len(s) + 1):
-            substr = s[i:j]
-            if substr == substr[::-1] and len(substr) > len(best):
-                best = substr
+    for center in range(len(s)):
+        # Odd-length palindrome: "aba" centered on 'b'
+        odd = expand_around_center(s, center, center)
+        # Even-length palindrome: "abba" centered between the two 'b's
+        even = expand_around_center(s, center, center + 1)
+        if len(odd) > len(best):
+            best = odd
+        if len(even) > len(best):
+            best = even
     return best
+
+def expand_around_center(s: str, left: int, right: int) -> str:
+    while left >= 0 and right < len(s) and s[left] == s[right]:
+       left -= 1
+       right += 1
+    # Loop exits when either: left < 0, right >= len(s), or chars don't match.
+    # Slice [left + 1:right] gives the palindrome without th mismatched pair.
+    return s[left + 1:right]
 
 def main():
     text = input("Enter text: ")
